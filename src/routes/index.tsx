@@ -79,6 +79,10 @@ function Index() {
   }, [tasks, coins, blocks]);
 
 
+  useEffect(() => {
+    if (!blocks.includes(block)) setBlock(blocks[0]);
+  }, [blocks, block]);
+
   const visible = useMemo(
     () => (filter === "all" ? tasks : tasks.filter((t) => t.category === filter)),
     [tasks, filter],
@@ -119,6 +123,7 @@ function Index() {
               setCategory={setCategory}
               block={block}
               setBlock={setBlock}
+              blocks={blocks}
               onAdd={() => addTask()}
             />
             <Shortcuts onPick={(p) => addTask(p)} />
@@ -132,7 +137,7 @@ function Index() {
               setFilter={setFilter}
               onToggle={toggle}
             />
-            <CalSync />
+            <CalSync blocks={blocks} setBlocks={setBlocks} />
           </aside>
         </main>
       </div>
