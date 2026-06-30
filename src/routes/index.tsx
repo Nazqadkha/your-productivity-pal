@@ -50,20 +50,14 @@ const CATEGORIES: Record<Category, { label: string; icon: typeof Zap; chip: stri
   health: { label: "💪 Health", icon: Dumbbell, chip: "bg-mint/40 text-mint-foreground" },
 };
 
-const BLOCKS = ["09:00 – 11:00", "11:00 – 13:00", "14:00 – 16:00", "16:00 – 18:00"];
-
-const SEED: Task[] = [
-  { id: "1", title: "Deep work: ship landing page hero", category: "energy", block: BLOCKS[0], done: false },
-  { id: "2", title: "Read 20 pages — Atomic Habits", category: "study", block: BLOCKS[1], done: true },
-  { id: "3", title: "30‑min mobility flow", category: "health", block: BLOCKS[2], done: false },
-  { id: "4", title: "Cook a real lunch (no sad desk salad)", category: "creative", block: BLOCKS[1], done: false },
-];
+const DEFAULT_BLOCKS = ["09:00 – 11:00", "11:00 – 13:00", "14:00 – 16:00", "16:00 – 18:00"];
 
 function Index() {
-  const [tasks, setTasks] = useState<Task[]>(SEED);
+  const [blocks, setBlocks] = useState<string[]>(DEFAULT_BLOCKS);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<Category>("energy");
-  const [block, setBlock] = useState(BLOCKS[0]);
+  const [block, setBlock] = useState(blocks[0]);
   const [filter, setFilter] = useState<"all" | Category>("all");
   const [coins, setCoins] = useState(120);
 
@@ -72,6 +66,7 @@ function Index() {
     if (raw) {
       try {
         const data = JSON.parse(raw);
+        if (Array.isArray(data.blocks) && data.blocks.length) setBlocks(data.blocks);
         if (Array.isArray(data.tasks)) setTasks(data.tasks);
         if (typeof data.coins === "number") setCoins(data.coins);
       } catch {}
@@ -80,8 +75,9 @@ function Index() {
 
   useEffect(() => {
     if (typeof window !== "undefined")
-      localStorage.setItem("amigotask:v1", JSON.stringify({ tasks, coins }));
-  }, [tasks, coins]);
+      localStorage.setItem("amigotask:v1", JSON.stringify({ tasks, coins, blocks }));
+  }, [tasks, coins, blocks]);
+
 
   const visible = useMemo(
     () => (filter === "all" ? tasks : tasks.filter((t) => t.category === filter)),
