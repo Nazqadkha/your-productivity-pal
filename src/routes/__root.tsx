@@ -109,6 +109,19 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                const saved = localStorage.getItem('${"amigotask:theme"}');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved ? saved === 'dark' : prefersDark) {
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `,
+          }}
+        />
         <HeadContent />
       </head>
       <body>
