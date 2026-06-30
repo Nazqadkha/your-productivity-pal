@@ -16,6 +16,7 @@ import {
   Brain,
   Wand2,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const Route = createFileRoute("/")({
   head: () => ({
