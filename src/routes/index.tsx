@@ -52,14 +52,22 @@ const CATEGORIES: Record<Category, { label: string; icon: typeof Zap; chip: stri
 
 const DEFAULT_BLOCKS = ["09:00 – 11:00", "11:00 – 13:00", "14:00 – 16:00", "16:00 – 18:00"];
 
+const SEED: Task[] = [
+  { id: "1", title: "Deep work: ship landing page hero", category: "energy", block: DEFAULT_BLOCKS[0], done: false },
+  { id: "2", title: "Read 20 pages — Atomic Habits", category: "study", block: DEFAULT_BLOCKS[1], done: true },
+  { id: "3", title: "30‑min mobility flow", category: "health", block: DEFAULT_BLOCKS[2], done: false },
+  { id: "4", title: "Cook a real lunch (no sad desk salad)", category: "creative", block: DEFAULT_BLOCKS[1], done: false },
+];
+
 function Index() {
   const [blocks, setBlocks] = useState<string[]>(DEFAULT_BLOCKS);
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>(SEED);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<Category>("energy");
   const [block, setBlock] = useState(blocks[0]);
   const [filter, setFilter] = useState<"all" | Category>("all");
   const [coins, setCoins] = useState(120);
+
 
   useEffect(() => {
     const raw = typeof window !== "undefined" ? localStorage.getItem("amigotask:v1") : null;
