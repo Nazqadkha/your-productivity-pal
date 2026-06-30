@@ -415,15 +415,96 @@ function Quests({
   );
 }
 
-function CalSync() {
+function CalSync({ blocks, setBlocks }: { blocks: string[]; setBlocks: (b: string[]) => void }) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState<string[]>(blocks);
+
+  useEffect(() => {
+    setDraft(blocks);
+  }, [blocks, editing]);
+
+  const updateDraft = (idx: number, value: string) => {
+    setDraft((prev) => prev.map((b, i) => (i === idx ? value : b)));
+  };
+
+  const removeDraft = (idx: number) => {
+    setDraft((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  const addDraft = () => {
+    setDraft((prev) => [...prev, "12:00 – 13:00"]);
+  };
+
+  const save = () => {
+    const cleaned = draft.map((b) => b.trim()).filter(Boolean);
+    if (cleaned.length) setBlocks(cleaned);
+    setEditing(false);
+  };
+
   return (
     <div className="rounded-3xl border border-border bg-gradient-to-br from-lilac/40 to-mint/40 p-6">
-      <h3 className="inline-flex items-center gap-2 text-lg font-bold text-ink">
-        <CalendarIcon className="h-5 w-5" /> Cal‑sync & time blocks
-      </h3>
+      <div className="flex items-center justify-between">
+        <h3 className="inline-flex items-center gap-2 text-lg font-bold text-ink">
+          <CalendarIcon className="h-5 w-5" /> Cal‑sync & time blocks
+        </h3>
+        <button
+          onClick={() => setEditing((e) => !e)}
+          className="inline-flex items-center gap-1.5 rounded-full bg-background/60 px-3 py-1 text-xs font-semibold text-ink backdrop-blur transition hover:bg-background"
+          aria-label={editing ? "Close editor" : "Edit time blocks"}
+        >
+          {editing ? <X className="h-3.5 w-3.5" /> : <Pencil className="h-3.5 w-3.5" />}
+          {editing ? "Close" : "Edit blocks"}
+        </button>
+      </div>
       <p className="mt-1.5 text-sm text-ink/70">
         Pipe your quests straight into Google or Apple Calendar. Bestie keeps the colors tidy.
       </p>
+
+      {editing ? (
+        <div className="mt-4 space-y-2">
+          {draft.map((b, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-muted-foreground" />
+              <input
+                value={b}
+                onChange={(e) => updateDraft(i, e.target.value)}
+                className="flex-1 rounded-xl border border-input bg-surface px-3 py-2 text-sm font-medium text-ink focus:border-coral focus:outline-none"
+              />
+              <button
+                onClick={() => removeDraft(i)}
+                disabled={draft.length === 1}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition hover:bg-sun/30 hover:text-sun-foreground disabled:opacity-30"
+                aria-label="Remove block"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          ))}
+          <div className="flex items-center gap-2 pt-1">
+            <button
+              onClick={addDraft}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background/60 px-3 py-1.5 text-xs font-semibold text-ink transition hover:bg-background"
+            >
+              <Plus className="h-3.5 w-3.5" /> Add block
+            </button>
+            <button
+              onClick={save}
+              className="inline-flex items-center gap-1.5 rounded-full bg-ink px-3 py-1.5 text-xs font-semibold text-background transition hover:opacity-90"
+            >
+              Save blocks
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {blocks.map((b) => (
+            <span key={b} className="inline-flex items-center gap-1.5 rounded-full bg-background/60 px-3 py-1 text-xs font-semibold text-ink backdrop-blur">
+              <Clock className="h-3.5 w-3.5" /> {b}
+            </span>
+          ))}
+        </div>
+      )}
+
       <button className="mt-4 inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-background transition hover:opacity-90">
         Sync calendar
       </button>
