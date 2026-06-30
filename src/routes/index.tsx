@@ -155,6 +155,7 @@ function Header({ coins }: { coins: number }) {
         </div>
       </div>
       <div className="flex items-center gap-3">
+        <ThemeToggle />
         <Stat icon={<Flame className="h-4 w-4" />} label="5 day streak" tone="bg-sun text-sun-foreground" />
         <Stat icon={<Coins className="h-4 w-4" />} label={`${coins} coins`} tone="bg-mint text-mint-foreground" />
       </div>
