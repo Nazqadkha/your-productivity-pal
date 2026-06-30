@@ -15,8 +15,12 @@ import {
   Circle,
   Brain,
   Wand2,
+  Clock,
+  Pencil,
+  X,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
