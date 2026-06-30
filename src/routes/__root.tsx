@@ -87,8 +87,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Lovable App" },
       { name: "twitter:description", content: "Your Productivity Pal is an AI-powered task manager that helps you organize your day and boost focus." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/12a31cca-1868-4ba4-9955-7057f22e4d17/id-preview-efb393a2--dee6cbbc-df67-4890-824e-cdd5defdccc8.lovable.app-1782857632443.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/12a31cca-1868-4ba4-9955-7057f22e4d17/id-preview-efb393a2--dee6cbbc-df67-4890-824e-cdd5defdccc8.lovable.app-1782857632443.png" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d4d05923-06d9-499e-88d5-1a107f82f30e/id-preview-c4cb086c--dee6cbbc-df67-4890-824e-cdd5defdccc8.lovable.app-1782861416133.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d4d05923-06d9-499e-88d5-1a107f82f30e/id-preview-c4cb086c--dee6cbbc-df67-4890-824e-cdd5defdccc8.lovable.app-1782861416133.png" },
     ],
     links: [
       {
