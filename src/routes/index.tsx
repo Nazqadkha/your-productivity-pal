@@ -219,6 +219,7 @@ function TaskComposer(props: {
   setCategory: (c: Category) => void;
   block: string;
   setBlock: (b: string) => void;
+  blocks: string[];
   onAdd: () => void;
 }) {
   return (
@@ -256,7 +257,7 @@ function TaskComposer(props: {
             onChange={(e) => props.setBlock(e.target.value)}
             className="w-full rounded-xl border border-input bg-surface px-3 py-2.5 text-sm font-medium text-ink focus:border-coral focus:outline-none"
           >
-            {BLOCKS.map((b) => (
+            {props.blocks.map((b) => (
               <option key={b} value={b}>{b}</option>
             ))}
           </select>
